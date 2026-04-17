@@ -1,0 +1,6 @@
+polars==1.9.0
+duckdb==1.1.2
+pyarrow==17.0.0
+pandas==2.2.3
+faker==30.3.0
+openpyxl==3.1.5
