@@ -32,8 +32,8 @@ MONTHLY_TREND_SQL = """
         ROUND(SUM(amount), 2) AS revenue
     FROM {path}
     WHERE status = 'completed'
-    GROUP BY month
-    ORDER BY month
+    GROUP BY 1
+    ORDER BY 1
 """
 
 
