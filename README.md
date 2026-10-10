@@ -4,6 +4,7 @@
 
 **A modern ETL pipeline using the most performant tools in the Python ecosystem**
 
+[![CI](https://github.com/LacerdaTraderCode/data-pipeline-polars-duckdb/actions/workflows/ci.yml/badge.svg)](https://github.com/LacerdaTraderCode/data-pipeline-polars-duckdb/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Polars](https://img.shields.io/badge/Polars-CD792C?logo=polars&logoColor=white)](https://pola.rs/)
 [![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?logo=duckdb&logoColor=black)](https://duckdb.org/)
