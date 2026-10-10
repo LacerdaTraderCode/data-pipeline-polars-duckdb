@@ -119,6 +119,18 @@ print(result)
 
 ---
 
+## 🧪 Development
+
+```bash
+pip install -r requirements-dev.txt
+ruff check . && ruff format --check .
+pytest -v
+```
+
+The same checks run on every push and pull request via GitHub Actions.
+
+---
+
 ## ✅ Requirements
 
 - Python **3.11** or higher
