@@ -94,7 +94,7 @@ Generates 100,000 rows of synthetic data, processes it with Polars, saves it to 
 ### Polars vs Pandas benchmark
 
 ```bash
-python examples/benchmark.py
+python -m examples.benchmark
 ```
 
 ### SQL analysis directly on Parquet
