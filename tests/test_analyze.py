@@ -37,6 +37,15 @@ def test_monthly_trend_groups_by_month(sales_parquet):
     assert result["revenue"].to_list() == [1050.0, 2300.0]
 
 
+def test_monthly_trend_works_when_data_already_has_month_column(tmp_path, sales):
+    path = tmp_path / "featured.parquet"
+    add_date_features(sales).write_parquet(path)
+
+    result = monthly_trend(str(path))
+
+    assert result["revenue"].to_list() == [1050.0, 2300.0]
+
+
 def test_query_parquet_substitutes_path_placeholder(sales_parquet):
     result = query_parquet("SELECT COUNT(*) AS n FROM {path}", sales_parquet)
 
