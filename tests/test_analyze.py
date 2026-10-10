@@ -4,6 +4,7 @@ from datetime import date
 import polars as pl
 
 from pipeline.analyze import monthly_trend, query_parquet, revenue_by_region, top_products
+from pipeline.transform import add_date_features
 
 
 def test_revenue_by_region_counts_only_completed_sales(sales_parquet):
