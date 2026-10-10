@@ -1,59 +1,55 @@
-"""
-Módulo Analyze - Queries SQL em arquivos Parquet com DuckDB.
-"""
 import duckdb
 import polars as pl
 
+REVENUE_BY_REGION_SQL = """
+    SELECT
+        region,
+        COUNT(*) AS total_sales,
+        ROUND(SUM(amount), 2) AS revenue,
+        ROUND(AVG(amount), 2) AS avg_ticket
+    FROM {path}
+    WHERE status = 'completed'
+    GROUP BY region
+    ORDER BY revenue DESC
+"""
+
+TOP_PRODUCTS_SQL = """
+    SELECT
+        product,
+        COUNT(*) AS sales_count,
+        ROUND(SUM(amount), 2) AS total_revenue
+    FROM {path}
+    WHERE status = 'completed'
+    GROUP BY product
+    ORDER BY total_revenue DESC
+    LIMIT {limit}
+"""
+
+MONTHLY_TREND_SQL = """
+    SELECT
+        DATE_TRUNC('month', date) AS month,
+        COUNT(*) AS transactions,
+        ROUND(SUM(amount), 2) AS revenue
+    FROM {path}
+    WHERE status = 'completed'
+    GROUP BY 1
+    ORDER BY 1
+"""
+
 
 def query_parquet(sql: str, parquet_path: str) -> pl.DataFrame:
-    """
-    Executa query SQL direto em Parquet (sem carregar na memória).
-    Use o placeholder '{path}' para referenciar o arquivo na query.
-    """
-    sql = sql.replace("{path}", f"'{parquet_path}'")
-    result = duckdb.sql(sql).pl()
-    return result
+    escaped_path = parquet_path.replace("'", "''")
+    return duckdb.sql(sql.replace("{path}", f"'{escaped_path}'")).pl()
 
 
 def revenue_by_region(parquet_path: str) -> pl.DataFrame:
-    """Análise: receita por região."""
-    return query_parquet("""
-        SELECT 
-            region,
-            COUNT(*) as total_sales,
-            ROUND(SUM(amount), 2) as revenue,
-            ROUND(AVG(amount), 2) as avg_ticket
-        FROM {path}
-        WHERE status = 'completed'
-        GROUP BY region
-        ORDER BY revenue DESC
-    """, parquet_path)
+    return query_parquet(REVENUE_BY_REGION_SQL, parquet_path)
 
 
 def top_products(parquet_path: str, limit: int = 10) -> pl.DataFrame:
-    """Análise: top N produtos por receita."""
-    return query_parquet(f"""
-        SELECT 
-            product,
-            COUNT(*) as sales_count,
-            ROUND(SUM(amount), 2) as total_revenue
-        FROM {{path}}
-        WHERE status = 'completed'
-        GROUP BY product
-        ORDER BY total_revenue DESC
-        LIMIT {limit}
-    """, parquet_path)
+    sql = TOP_PRODUCTS_SQL.replace("{limit}", str(int(limit)))
+    return query_parquet(sql, parquet_path)
 
 
 def monthly_trend(parquet_path: str) -> pl.DataFrame:
-    """Análise: tendência mensal de vendas."""
-    return query_parquet("""
-        SELECT 
-            DATE_TRUNC('month', date) as month,
-            COUNT(*) as transactions,
-            ROUND(SUM(amount), 2) as revenue
-        FROM {path}
-        WHERE status = 'completed'
-        GROUP BY month
-        ORDER BY month
-    """, parquet_path)
+    return query_parquet(MONTHLY_TREND_SQL, parquet_path)

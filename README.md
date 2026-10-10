@@ -4,6 +4,7 @@
 
 **A modern ETL pipeline using the most performant tools in the Python ecosystem**
 
+[![CI](https://github.com/LacerdaTraderCode/data-pipeline-polars-duckdb/actions/workflows/ci.yml/badge.svg)](https://github.com/LacerdaTraderCode/data-pipeline-polars-duckdb/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Polars](https://img.shields.io/badge/Polars-CD792C?logo=polars&logoColor=white)](https://pola.rs/)
 [![DuckDB](https://img.shields.io/badge/DuckDB-FFF000?logo=duckdb&logoColor=black)](https://duckdb.org/)
@@ -56,7 +57,10 @@ data-pipeline-polars-duckdb/
 ├── examples/
 │   ├── sales_pipeline.py   # Complete sales pipeline
 │   └── benchmark.py        # Polars vs Pandas
+├── tests/
+├── .github/workflows/ci.yml
 ├── requirements.txt
+├── requirements-dev.txt
 └── README.md
 ```
 
@@ -82,7 +86,7 @@ pip install -r requirements.txt
 ### Complete sales pipeline
 
 ```bash
-python examples/sales_pipeline.py
+python -m examples.sales_pipeline
 ```
 
 Generates 100,000 rows of synthetic data, processes it with Polars, saves it to Parquet, and runs analyses with DuckDB.
@@ -90,7 +94,7 @@ Generates 100,000 rows of synthetic data, processes it with Polars, saves it to 
 ### Polars vs Pandas benchmark
 
 ```bash
-python examples/benchmark.py
+python -m examples.benchmark
 ```
 
 ### SQL analysis directly on Parquet
@@ -112,6 +116,18 @@ result = duckdb.sql("""
 
 print(result)
 ```
+
+---
+
+## 🧪 Development
+
+```bash
+pip install -r requirements-dev.txt
+ruff check . && ruff format --check .
+pytest -v
+```
+
+The same checks run on every push and pull request via GitHub Actions.
 
 ---
 
