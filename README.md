@@ -86,7 +86,7 @@ pip install -r requirements.txt
 ### Complete sales pipeline
 
 ```bash
-python examples/sales_pipeline.py
+python -m examples.sales_pipeline
 ```
 
 Generates 100,000 rows of synthetic data, processes it with Polars, saves it to Parquet, and runs analyses with DuckDB.
