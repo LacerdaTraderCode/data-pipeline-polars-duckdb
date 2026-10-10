@@ -57,7 +57,10 @@ data-pipeline-polars-duckdb/
 ├── examples/
 │   ├── sales_pipeline.py   # Complete sales pipeline
 │   └── benchmark.py        # Polars vs Pandas
+├── tests/
+├── .github/workflows/ci.yml
 ├── requirements.txt
+├── requirements-dev.txt
 └── README.md
 ```
 
